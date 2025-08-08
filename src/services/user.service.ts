@@ -63,4 +63,9 @@ export class UserService implements BaseServiceType<UserDocument> {
         }
     }
 
+    public async banUser(id: string): Promise<UserDocument | undefined> {
+        const user = await this.userRepository.update(id, { isBanned: true });
+        return user ?? undefined;
+    }
+
 }

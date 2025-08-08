@@ -34,62 +34,71 @@ const seedDatabase = async () => {
         console.log(`${createdProducts.length} products created.`);
 
         const usersToSeed = [
-            { firstName: 'John', lastName: 'Doe', email: 'john.doe@example.com', password: 'password123' },
-            { firstName: 'Jane', lastName: 'Smith', email: 'jane.smith@example.com', password: 'password456' },
-            { firstName: 'Alex', lastName: 'Johnson', email: 'alex.j@example.com', password: 'password789' },
-            { firstName: 'Emily', lastName: 'White', email: 'emily.white@example.com', password: 'password101' },
-            { firstName: 'Michael', lastName: 'Brown', email: 'michael.b@example.com', password: 'password202' },
+            {
+                firstName: 'Admin',
+                lastName: 'User',
+                email: 'admin@example.com',
+                password: 'adminpassword',
+                role: 'admin',
+                isBanned: false,
+            },
+            {
+                firstName: 'Jane',
+                lastName: 'Customer',
+                email: 'jane.customer@example.com',
+                password: 'password123',
+                role: 'customer',
+                isBanned: false,
+            },
+            {
+                firstName: 'Alex',
+                lastName: 'Johnson',
+                email: 'alex.j@example.com',
+                password: 'password789',
+                role: 'customer',
+                isBanned: false,
+            },
+            {
+                firstName: 'Banned',
+                lastName: 'User',
+                email: 'banned@example.com',
+                password: 'bannedpassword',
+                role: 'customer',
+                isBanned: true,
+            },
+            {
+                firstName: 'Michael',
+                lastName: 'Brown',
+                email: 'michael.b@example.com',
+                password: 'password202',
+                role: 'customer',
+                isBanned: false,
+            },
         ];
-        const createdUsers = await UserModel.insertMany(usersToSeed);
+
+        console.log('Creating users one by one to ensure password hashing...');
+        const createdUsers = [];
+        for (const userData of usersToSeed) {
+            const user = await UserModel.create(userData);
+            createdUsers.push(user);
+        }
         console.log(`${createdUsers.length} users created.`);
 
         const ordersToSeed = [
             {
-                user: createdUsers[0]._id,
-                productsPurchased: [
-                    { product: createdProducts[0]._id, quantity: 1 },
-                    { product: createdProducts[2]._id, quantity: 1 },
-                ],
-                totalAmount: createdProducts[0].price * 1 + createdProducts[2].price * 1,
-            },
-            {
                 user: createdUsers[1]._id,
                 productsPurchased: [
-                    { product: createdProducts[3]._id, quantity: 5 },
-                    { product: createdProducts[4]._id, quantity: 2 },
+                    { product: createdProducts[0]._id, quantity: 1 },
+                    { product: createdProducts[1]._id, quantity: 1 },
                 ],
-                totalAmount: createdProducts[3].price * 5 + createdProducts[4].price * 2,
-            },
-            {
-                user: createdUsers[0]._id,
-                productsPurchased: [
-                    { product: createdProducts[9]._id, quantity: 2 },
-                ],
-                totalAmount: createdProducts[9].price * 2,
+                totalAmount: createdProducts[0].price + createdProducts[1].price,
             },
             {
                 user: createdUsers[2]._id,
                 productsPurchased: [
-                    { product: createdProducts[7]._id, quantity: 1 },
-                    { product: createdProducts[1]._id, quantity: 1 },
+                    { product: createdProducts[3]._id, quantity: 3 },
                 ],
-                totalAmount: createdProducts[7].price * 1 + createdProducts[1].price * 1,
-            },
-            {
-                user: createdUsers[3]._id,
-                productsPurchased: [
-                    { product: createdProducts[8]._id, quantity: 1 },
-                ],
-                totalAmount: createdProducts[8].price * 1,
-            },
-            {
-                user: createdUsers[4]._id,
-                productsPurchased: [
-                    { product: createdProducts[5]._id, quantity: 1 },
-                    { product: createdProducts[6]._id, quantity: 1 },
-                    { product: createdProducts[9]._id, quantity: 3 },
-                ],
-                totalAmount: createdProducts[5].price * 1 + createdProducts[6].price * 1 + createdProducts[9].price * 3,
+                totalAmount: createdProducts[3].price * 3,
             },
         ];
         const createdOrders = await OrderModel.insertMany(ordersToSeed);

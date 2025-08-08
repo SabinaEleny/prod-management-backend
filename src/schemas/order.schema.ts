@@ -5,7 +5,6 @@ const invalidIdMessage = 'Invalid ID format';
 
 export const createOrderSchema = z.object({
     body: z.object({
-        userId: z.string().regex(objectIdRegex, invalidIdMessage),
         products: z
             .array(
                 z.object({

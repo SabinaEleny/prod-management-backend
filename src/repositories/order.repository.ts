@@ -1,9 +1,14 @@
 import { OrderModel, OrderDocument, Order } from '../models/order.model';
+import { Types } from 'mongoose';
 
 export class OrderRepository {
 
-    public async getAll(): Promise<OrderDocument[]> {
-        return OrderModel.find({});
+    public async getAll(userId?: Types.ObjectId): Promise<OrderDocument[]> {
+        const query: any = {};
+        if (userId) {
+            query.user = userId;
+        }
+        return OrderModel.find(query);
     }
 
     public async getById(id: string): Promise<OrderDocument | null> {

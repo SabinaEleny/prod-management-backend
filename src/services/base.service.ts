@@ -1,4 +1,4 @@
-import { UserDocument } from "../models/user.model";
+import { UserDocument } from '../models/user.model';
 
 export type BaseServiceType<T> = {
     getAll(params?: any | UserDocument): Promise<any>;

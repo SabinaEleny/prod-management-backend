@@ -67,6 +67,6 @@ export const protect = (roles: ('admin' | 'customer')[] = []) => {
             } else {
                 res.status(403).json({ message: 'Forbidden: You do not have the required role.' });
             }
-        }
+        },
     ];
 };

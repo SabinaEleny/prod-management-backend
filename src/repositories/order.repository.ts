@@ -2,7 +2,6 @@ import { OrderModel, OrderDocument, Order } from '../models/order.model';
 import { Types } from 'mongoose';
 
 export class OrderRepository {
-
     public async getAll(userId?: Types.ObjectId): Promise<OrderDocument[]> {
         const query: any = {};
         if (userId) {

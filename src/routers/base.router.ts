@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { BaseServiceType } from '../services/base.service';
-import { AuthRequest } from '../middlewares/auth.handler';
+import { AuthRequest } from '../middlewares/auth';
 
 export class BaseRouter<T, TService extends BaseServiceType<T>> {
     public router: Router;

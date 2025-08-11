@@ -5,16 +5,17 @@ import { UserRole } from '../utils/enums';
 
 export type User = {
     firstName: string;
-    lastName:string;
+    lastName: string;
     email: string;
     password: string;
     role: UserRole;
     isBanned: boolean;
 };
 
-export type UserDocument = User & Document<Types.ObjectId> & {
-    comparePassword(candidatePassword: string): Promise<boolean>;
-};
+export type UserDocument = User &
+    Document<Types.ObjectId> & {
+        comparePassword(candidatePassword: string): Promise<boolean>;
+    };
 
 const UserSchema: Schema = new Schema(
     {
@@ -24,7 +25,7 @@ const UserSchema: Schema = new Schema(
         password: {
             type: String,
             required: true,
-            select: false
+            select: false,
         },
         role: {
             type: String,
@@ -33,8 +34,8 @@ const UserSchema: Schema = new Schema(
         },
         isBanned: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
     },
     {
         timestamps: true,

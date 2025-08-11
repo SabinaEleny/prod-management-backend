@@ -7,7 +7,7 @@ export type IProductQueryOptions = {
     limit: number;
     filter: { category?: string };
     sort: { price?: SortDirection };
-}
+};
 
 export class ProductRepository {
     public async getAll(options: IProductQueryOptions): Promise<{ products: ProductDocument[]; total: number }> {

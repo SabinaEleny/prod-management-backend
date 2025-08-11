@@ -1,14 +1,14 @@
-import {Response, Router} from 'express';
+import { Response, Router } from 'express';
 import { BaseRouter } from './base.router';
 import { OrderService } from '../services/order.service';
 import { OrderDocument } from '../models/order.model';
-import { validate } from '../middlewares/validation.handler';
+import { validate } from '../middlewares/validation';
 import { createOrderSchema } from '../schemas/order.schema';
-import { AuthRequest, protect, isOrderOwner } from '../middlewares/auth.handler';
+import { AuthRequest, protect, isOrderOwner } from '../middlewares/auth';
 
 export class OrderRouter extends BaseRouter<OrderDocument, OrderService> {
     constructor(router: Router) {
-        super(router,new OrderService(), 'Order');
+        super(router, new OrderService(), 'Order');
         this.initializeRoutes();
     }
 
@@ -19,7 +19,6 @@ export class OrderRouter extends BaseRouter<OrderDocument, OrderService> {
         this.router.put('/orders/:id', protect(), this.checkOwnership, this.update.bind(this));
         this.router.delete('/orders/:id', protect(), this.checkOwnership, this.delete.bind(this));
     }
-
 
     private checkOwnership(req: AuthRequest, res: Response, next: any) {
         if (req.user && req.user.role === 'admin') {

@@ -13,7 +13,10 @@ export class AuthService {
         return userWithoutPassword;
     }
 
-    public async login(email: string, pass: string): Promise<{ token: string; user: Partial<UserDocument> } | { error: string }> {
+    public async login(
+        email: string,
+        pass: string
+    ): Promise<{ token: string; user: Partial<UserDocument> } | { error: string }> {
         const user = await UserModel.findOne({ email }).select('+password');
         if (!user) {
             return { error: 'Invalid credentials.' };

@@ -17,14 +17,14 @@ const OrderSchema: Schema = new Schema(
         productsPurchased: [
             {
                 product: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
-                quantity: { type: Number, required: true, min: 1 }
-            }
+                quantity: { type: Number, required: true, min: 1 },
+            },
         ],
-        totalAmount: { type: Number, required: true }
+        totalAmount: { type: Number, required: true },
     },
     {
         versionKey: false,
-        timestamps: true
+        timestamps: true,
     }
 );
 

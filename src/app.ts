@@ -1,6 +1,6 @@
 import express, { Application, Router } from 'express';
 import config from './config/config';
-import { errorHandler, AppError } from './middlewares/error.handler';
+import { error, AppError } from './middlewares/error';
 import { ProductRouter } from './routers/product.router';
 import { UserRouter } from './routers/user.router';
 import { OrderRouter } from './routers/order.router';
@@ -53,6 +53,6 @@ export class App {
             next(error);
         });
 
-        this.app.use(errorHandler);
+        this.app.use(error);
     }
 }

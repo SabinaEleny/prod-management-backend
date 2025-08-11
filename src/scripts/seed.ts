@@ -21,14 +21,14 @@ const seedDatabase = async () => {
         const productsToSeed = [
             { name: 'Laptop Pro X1', category: 'Electronics', price: 1499.99, stock: 30 },
             { name: 'Mechanical Keyboard RGB', category: 'Electronics', price: 120, stock: 100 },
-            { name: 'UltraWide 4K Monitor', category: 'Electronics', price: 799.50, stock: 45 },
+            { name: 'UltraWide 4K Monitor', category: 'Electronics', price: 799.5, stock: 45 },
             { name: 'Organic Cotton T-Shirt', category: 'Apparel', price: 29.5, stock: 250 },
-            { name: 'Premium Denim Jeans', category: 'Apparel', price: 89.90, stock: 120 },
+            { name: 'Premium Denim Jeans', category: 'Apparel', price: 89.9, stock: 120 },
             { name: 'Running Shoes X-Pro', category: 'Footwear', price: 99.99, stock: 80 },
-            { name: 'Leather Ankle Boots', category: 'Footwear', price: 150.00, stock: 60 },
-            { name: '"The Art of Code" Book', category: 'Books', price: 45.00, stock: 200 },
-            { name: 'Espresso Machine', category: 'Home Goods', price: 250.00, stock: 50 },
-            { name: 'Yoga Mat', category: 'Sports', price: 35.00, stock: 150 },
+            { name: 'Leather Ankle Boots', category: 'Footwear', price: 150.0, stock: 60 },
+            { name: '"The Art of Code" Book', category: 'Books', price: 45.0, stock: 200 },
+            { name: 'Espresso Machine', category: 'Home Goods', price: 250.0, stock: 50 },
+            { name: 'Yoga Mat', category: 'Sports', price: 35.0, stock: 150 },
         ];
         const createdProducts = await ProductModel.insertMany(productsToSeed);
         console.log(`${createdProducts.length} products created.`);
@@ -95,9 +95,7 @@ const seedDatabase = async () => {
             },
             {
                 user: createdUsers[2]._id,
-                productsPurchased: [
-                    { product: createdProducts[3]._id, quantity: 3 },
-                ],
+                productsPurchased: [{ product: createdProducts[3]._id, quantity: 3 }],
                 totalAmount: createdProducts[3].price * 3,
             },
         ];

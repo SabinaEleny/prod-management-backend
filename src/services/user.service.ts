@@ -53,10 +53,9 @@ export class UserService implements BaseServiceType<UserDocument> {
             await session.commitTransaction();
 
             return user;
-
         } catch (error) {
             await session.abortTransaction();
-            console.error("Transaction aborted due to an error:", error);
+            console.error('Transaction aborted due to an error:', error);
             throw error;
         } finally {
             session.endSession();
@@ -67,5 +66,4 @@ export class UserService implements BaseServiceType<UserDocument> {
         const user = await this.userRepository.update(id, { isBanned: true });
         return user ?? undefined;
     }
-
 }

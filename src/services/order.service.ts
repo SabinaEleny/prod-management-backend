@@ -6,7 +6,7 @@ import { UpdateQuery } from 'mongoose';
 import { UserDocument } from '../models/user.model';
 
 type OrderCreationDTO = {
-    products: { id: string; quantity: number; }[];
+    products: { id: string; quantity: number }[];
 };
 
 export class OrderService implements BaseServiceType<OrderDocument> {

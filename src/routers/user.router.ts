@@ -1,14 +1,14 @@
 import { BaseRouter } from './base.router';
 import { UserService } from '../services/user.service';
 import { UserDocument } from '../models/user.model';
-import { validate } from '../middlewares/validation.handler';
+import { validate } from '../middlewares/validation';
 import { adminCreateUserSchema, adminUpdateUserSchema } from '../schemas/user.schema';
-import { AuthRequest, protect } from '../middlewares/auth.handler';
-import {Response, Router} from 'express';
+import { AuthRequest, protect } from '../middlewares/auth';
+import { Response, Router } from 'express';
 
 export class UserRouter extends BaseRouter<UserDocument, UserService> {
     constructor(router: Router) {
-        super(router,new UserService(), 'User');
+        super(router, new UserService(), 'User');
         this.initializeRoutes();
     }
 

@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import { AuthService } from '../services/auth.service';
-import { validate } from '../middlewares/validation.handler';
+import { validate } from '../middlewares/validation';
 import { signupSchema, loginSchema } from '../schemas/user.schema';
 
 export class AuthRouter {
@@ -47,7 +47,7 @@ export class AuthRouter {
     public logout(_req: Request, res: Response) {
         res.cookie('token', '', {
             httpOnly: true,
-            expires: new Date(0)
+            expires: new Date(0),
         });
         res.status(200).json({ message: 'Logged out successfully' });
     }

@@ -3,14 +3,16 @@ import config from './config/config';
 
 export const connectDB = async () => {
     try {
+        const { host, user, pass, name } = config.db;
 
-        const mongoUri = process.env.MONGO_URI;
-        if (!mongoUri) {
-            console.error('FATAL ERROR: MONGO_URI is not defined in .env file.');
+        if (!host || !user || !pass || !name) {
+            console.error('FATAL ERROR: Database credentials are not fully defined in the environment variables.');
             process.exit(1);
         }
 
-        await mongoose.connect(mongoUri);
+        const connectionString = `mongodb+srv://${user}:${pass}@${host}/${name}?retryWrites=true&w=majority`;
+
+        await mongoose.connect(connectionString);
         console.log('MongoDB Connected successfully.');
     } catch (error) {
         console.error('MongoDB connection error:', error);

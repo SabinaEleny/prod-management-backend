@@ -1,6 +1,5 @@
-import { Router, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import { BaseServiceType } from '../services/base.service';
-import { asyncHandler } from '../middlewares/async.handler';
 import { AuthRequest } from '../middlewares/auth.handler';
 
 export class BaseRouter<T, TService extends BaseServiceType<T>> {
@@ -8,19 +7,10 @@ export class BaseRouter<T, TService extends BaseServiceType<T>> {
     protected service: TService;
     protected entityName: string;
 
-    constructor(service: TService, entityName: string) {
+    constructor(router: Router, service: TService, entityName: string) {
+        this.router = router;
         this.service = service;
         this.entityName = entityName.charAt(0).toUpperCase() + entityName.slice(1);
-        this.router = Router();
-        this.initializeRoutes();
-    }
-
-    protected initializeRoutes(): void {
-        this.router.get(`/`, asyncHandler(this.getAll.bind(this)));
-        this.router.get(`/:id`, asyncHandler(this.getById.bind(this)));
-        this.router.post(`/`, asyncHandler(this.create.bind(this)));
-        this.router.put(`/:id`, asyncHandler(this.update.bind(this)));
-        this.router.delete(`/:id`, asyncHandler(this.delete.bind(this)));
     }
 
     public async getAll(req: AuthRequest, res: Response): Promise<Response> {
@@ -43,7 +33,6 @@ export class BaseRouter<T, TService extends BaseServiceType<T>> {
         }
         return res.status(200).json(item);
     }
-
 
     public async create(req: AuthRequest, res: Response): Promise<Response> {
         let result;

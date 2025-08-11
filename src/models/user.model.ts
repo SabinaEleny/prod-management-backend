@@ -1,17 +1,18 @@
 import { Schema, model, Document, Types } from 'mongoose';
 import bcrypt from 'bcryptjs';
+import { OrderModel } from './order.model';
+import { UserRole } from '../utils/enums';
 
 export type User = {
     firstName: string;
-    lastName: string;
+    lastName:string;
     email: string;
     password: string;
-    role: 'customer' | 'admin';
+    role: UserRole;
     isBanned: boolean;
 };
 
-export type UserDocument = User & Document & {
-    _id: Types.ObjectId;
+export type UserDocument = User & Document<Types.ObjectId> & {
     comparePassword(candidatePassword: string): Promise<boolean>;
 };
 
@@ -20,11 +21,15 @@ const UserSchema: Schema = new Schema(
         firstName: { type: String, required: true, trim: true },
         lastName: { type: String, required: true, trim: true },
         email: { type: String, required: true, unique: true, trim: true, lowercase: true },
-        password: { type: String, required: true },
+        password: {
+            type: String,
+            required: true,
+            select: false
+        },
         role: {
             type: String,
-            enum: ['customer', 'admin'],
-            default: 'customer'
+            enum: Object.values(UserRole),
+            default: UserRole.Customer,
         },
         isBanned: {
             type: Boolean,
@@ -46,8 +51,20 @@ UserSchema.pre('save', async function (next) {
     next();
 });
 
+UserSchema.pre('findOneAndDelete', async function (next) {
+    try {
+        const userToDelete = this.getQuery();
+        if (userToDelete._id) {
+            await OrderModel.deleteMany({ user: userToDelete._id });
+        }
+        next();
+    } catch (error: any) {
+        next(error);
+    }
+});
+
 UserSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
-    return await bcrypt.compare(candidatePassword, this.password);
+    return await bcrypt.compare(candidatePassword, this.password as string);
 };
 
 export const UserModel = model<UserDocument>('User', UserSchema);

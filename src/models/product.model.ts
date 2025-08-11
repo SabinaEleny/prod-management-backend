@@ -7,9 +7,7 @@ export type Product = {
     stock: number;
 };
 
-export type ProductDocument = Product & Document & {
-    _id: Types.ObjectId;
-};
+export type ProductDocument = Product & Document<Types.ObjectId>;
 
 const ProductSchema: Schema = new Schema(
     {

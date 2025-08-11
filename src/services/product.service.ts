@@ -1,12 +1,14 @@
 import { Product, ProductDocument } from '../models/product.model';
 import { ProductRepository, IProductQueryOptions } from '../repositories/product.repository';
 import { UpdateQuery } from 'mongoose';
+import { SortDirection } from '../utils/enums';
+
 
 export type IGetAllProductsQuery = {
     page?: string;
     limit?: string;
     category?: string;
-    sortByPrice?: 'asc' | 'desc';
+    sortByPrice?: SortDirection;
 }
 
 export class ProductService {

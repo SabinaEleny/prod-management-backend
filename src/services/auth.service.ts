@@ -9,12 +9,12 @@ export class AuthService {
         }
 
         const newUser = await UserModel.create(userData);
-        const { password, ...userWithoutPassword } = newUser.toObject();
+        const { password, ...userWithoutPassword } = newUser.toObject({ virtuals: true });
         return userWithoutPassword;
     }
 
     public async login(email: string, pass: string): Promise<{ token: string; user: Partial<UserDocument> } | { error: string }> {
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ email }).select('+password');
         if (!user) {
             return { error: 'Invalid credentials.' };
         }
@@ -28,7 +28,7 @@ export class AuthService {
             expiresIn: '1d',
         });
 
-        const { password, ...userWithoutPassword } = user.toObject();
+        const { password, ...userWithoutPassword } = user.toObject({ virtuals: true });
         return { token, user: userWithoutPassword };
     }
 }

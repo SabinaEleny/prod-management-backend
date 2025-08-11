@@ -1,47 +1,25 @@
-import { Response } from 'express';
+import {Response, Router} from 'express';
 import { BaseRouter } from './base.router';
 import { OrderService } from '../services/order.service';
 import { OrderDocument } from '../models/order.model';
 import { validate } from '../middlewares/validation.handler';
 import { createOrderSchema } from '../schemas/order.schema';
-import { AuthRequest, isAuthenticated, isAdmin, isOrderOwner } from '../middlewares/auth.handler';
-import { asyncHandler } from '../middlewares/async.handler';
+import { AuthRequest, protect, isOrderOwner } from '../middlewares/auth.handler';
 
 export class OrderRouter extends BaseRouter<OrderDocument, OrderService> {
-    constructor() {
-        super(new OrderService(), 'Order');
+    constructor(router: Router) {
+        super(router,new OrderService(), 'Order');
+        this.initializeRoutes();
     }
 
     protected initializeRoutes(): void {
-        this.router.get(`/`,
-            isAuthenticated,
-            asyncHandler(this.getAll.bind(this))
-        );
-
-        this.router.post(`/`,
-            isAuthenticated,
-            validate(createOrderSchema),
-            asyncHandler(this.create.bind(this))
-        );
-
-        this.router.get(`/:id`,
-            isAuthenticated,
-            this.checkOwnership,
-            asyncHandler(this.getById.bind(this))
-        );
-
-        this.router.put(`/:id`,
-            isAuthenticated,
-            this.checkOwnership,
-            asyncHandler(this.update.bind(this))
-        );
-
-        this.router.delete(`/:id`,
-            isAuthenticated,
-            this.checkOwnership,
-            asyncHandler(this.delete.bind(this))
-        );
+        this.router.get('/orders', protect(), this.getAll.bind(this));
+        this.router.post('/orders', protect(), validate(createOrderSchema), this.create.bind(this));
+        this.router.get('/orders/:id', protect(), this.checkOwnership, this.getById.bind(this));
+        this.router.put('/orders/:id', protect(), this.checkOwnership, this.update.bind(this));
+        this.router.delete('/orders/:id', protect(), this.checkOwnership, this.delete.bind(this));
     }
+
 
     private checkOwnership(req: AuthRequest, res: Response, next: any) {
         if (req.user && req.user.role === 'admin') {

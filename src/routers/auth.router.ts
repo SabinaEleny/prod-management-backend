@@ -44,7 +44,7 @@ export class AuthRouter {
         res.status(200).json({ user: result.user });
     }
 
-    public logout(req: Request, res: Response) {
+    public logout(_req: Request, res: Response) {
         res.cookie('token', '', {
             httpOnly: true,
             expires: new Date(0)

@@ -1,11 +1,12 @@
 import { UpdateQuery } from 'mongoose';
 import { ProductModel, ProductDocument, Product } from '../models/product.model';
+import { SortDirection } from '../utils/enums';
 
 export type IProductQueryOptions = {
     page: number;
     limit: number;
     filter: { category?: string };
-    sort: { price?: 'asc' | 'desc' };
+    sort: { price?: SortDirection };
 }
 
 export class ProductRepository {

@@ -9,9 +9,7 @@ export type Order = {
     totalAmount: number;
 };
 
-export type OrderDocument = Order & Document & {
-    _id: Types.ObjectId;
-};
+export type OrderDocument = Order & Document<Types.ObjectId>;
 
 const OrderSchema: Schema = new Schema(
     {

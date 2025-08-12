@@ -38,6 +38,8 @@ export class App {
         new UserRouter(apiRouter);
         new OrderRouter(apiRouter);
 
+        this.app.get('/favicon.ico', (req, res) => res.status(204).send());
+
         this.app.get('/', (req, res) => {
             res.status(200).json({ message: 'Welcome to the E-Commerce API!' });
         });

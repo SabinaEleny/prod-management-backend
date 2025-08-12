@@ -1,6 +1,5 @@
 import { Schema, model, Document, Types } from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { OrderModel } from './order.model';
 import { UserRole } from '../utils/enums';
 
 export type User = {
@@ -50,18 +49,6 @@ UserSchema.pre('save', async function (next) {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password as string, salt);
     next();
-});
-
-UserSchema.pre('findOneAndDelete', async function (next) {
-    try {
-        const userToDelete = this.getQuery();
-        if (userToDelete._id) {
-            await OrderModel.deleteMany({ user: userToDelete._id });
-        }
-        next();
-    } catch (error: any) {
-        next(error);
-    }
 });
 
 UserSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {

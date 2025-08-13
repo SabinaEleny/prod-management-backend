@@ -1,7 +1,7 @@
-import { ProductRepository } from '../repositories/product.repository';
-import { ProductModel } from '../models/product.model';
-import { createMockProduct } from '../_mocks_/product.mocks';
-import { ProductCategory, SortDirection } from '../utils/enums';
+import { ProductRepository } from '../../repositories/product.repository';
+import { ProductModel } from '../../models/product.model';
+import { createMockProduct } from '../../_mocks_/product.mocks';
+import { ProductCategory, SortDirection } from '../../utils/enums';
 
 describe('ProductRepository', () => {
     let productRepository: ProductRepository;

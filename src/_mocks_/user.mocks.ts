@@ -13,7 +13,7 @@ export const createMockUser = (overrides: Partial<User> = {}): User => {
     };
 };
 
-const createMockAdmin = (overrides: Partial<User> = {}): User => {
+export const createMockAdmin = (overrides: Partial<User> = {}): User => {
     return {
         ...createMockUser({ email: 'admin@example.com', role: UserRole.Admin }),
         ...overrides,

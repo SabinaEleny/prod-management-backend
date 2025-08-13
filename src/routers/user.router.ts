@@ -27,8 +27,10 @@ export class UserRouter extends BaseRouter<UserDocument, UserService> {
         return res.status(200).json(req.user);
     }
 
+    // TODO: Test
     public async banUser(req: AuthRequest, res: Response): Promise<Response> {
         const bannedUser = await this.service.banUser(req.params.id);
+
         if (!bannedUser) {
             return res.status(404).json({ message: 'User not found' });
         }

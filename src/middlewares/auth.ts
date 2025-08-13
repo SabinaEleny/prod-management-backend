@@ -29,14 +29,6 @@ export const isAuthenticated = async (req: AuthRequest, res: Response, next: Nex
     }
 };
 
-export const isAdmin = (req: AuthRequest, res: Response, next: NextFunction) => {
-    if (req.user && req.user.role === 'admin') {
-        next();
-    } else {
-        res.status(403).json({ message: 'Forbidden, admin access required' });
-    }
-};
-
 export const isOrderOwner = async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
         const order = await OrderModel.findById(req.params.id);

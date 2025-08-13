@@ -8,7 +8,7 @@ import { AuthRouter } from './routers/auth.router';
 import cookieParser from 'cookie-parser';
 
 export class App {
-    private readonly app: Application;
+    public readonly app: Application;
     private readonly port: number;
 
     constructor() {

@@ -1,7 +1,7 @@
-import { AuthService } from '../services/auth.service';
-import { UserModel } from '../models/user.model';
-import { createMockUser } from '../_mocks_/user.mocks';
-import { UserRole } from '../utils/enums';
+import { AuthService } from '../../services/auth.service';
+import { UserModel } from '../../models/user.model';
+import { createMockUser } from '../../_mocks_/user.mocks';
+import { UserRole } from '../../utils/enums';
 
 describe('AuthService', () => {
     let authService: AuthService;

@@ -1,0 +1,6 @@
+{
+  "collection": "migrations_history",
+  "migrationsPath": "./migrations",
+  "templatePath": "./migrations/template.ts",
+  "autosync": true
+}

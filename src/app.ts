@@ -6,6 +6,7 @@ import { UserRouter } from './routers/user.router';
 import { OrderRouter } from './routers/order.router';
 import { AuthRouter } from './routers/auth.router';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 export class App {
     public readonly app: Application;
@@ -26,6 +27,12 @@ export class App {
     }
 
     private initializeMiddleware(): void {
+        this.app.use(
+            cors({
+                origin: 'http://localhost:5173',
+                credentials: true,
+            })
+        );
         this.app.use(express.json());
         this.app.use(cookieParser());
     }

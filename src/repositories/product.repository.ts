@@ -25,7 +25,13 @@ export class ProductRepository {
 
         const skip = (page - 1) * limit;
 
-        const products = await ProductModel.find(query).sort(sortOptions).skip(skip).limit(limit);
+        //const products = await ProductModel.find(query).sort(sortOptions).skip(skip).limit(limit);
+        const productQuery = ProductModel.find(query).sort(sortOptions);
+        if (limit > 0) {
+            productQuery.skip(skip).limit(limit);
+        }
+
+        const products = await productQuery;
         const total = await ProductModel.countDocuments(query);
 
         return { products, total };

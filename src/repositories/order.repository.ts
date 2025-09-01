@@ -7,7 +7,8 @@ export class OrderRepository {
         if (userId) {
             query.user = userId;
         }
-        return OrderModel.find(query);
+        //return OrderModel.find(query);
+        return OrderModel.find(query).sort({ createdAt: -1 }).populate('productsPurchased.product');
     }
 
     public async getById(id: string): Promise<OrderDocument | null> {

@@ -20,21 +20,34 @@ export class ProductService {
     public async getAll(
         queryParams: IGetAllProductsQuery
     ): Promise<{ products: ProductDocument[]; total: number; page: number; totalPages: number }> {
-        const options: IProductQueryOptions = {
-            page: queryParams.page ? parseInt(queryParams.page, 10) : 1,
-            limit: queryParams.limit ? parseInt(queryParams.limit, 10) : 10,
-            filter: {
-                category: queryParams.category,
-            },
-            sort: {
-                price: queryParams.sortByPrice,
-            },
-        };
+        // const options: IProductQueryOptions = {
+        //     page: queryParams.page ? parseInt(queryParams.page, 10) : 1,
+        //     limit: queryParams.limit ? parseInt(queryParams.limit, 10) : 0,
+        //     filter: {
+        //         category: queryParams.category,
+        //     },
+        //     sort: {
+        //         price: queryParams.sortByPrice,
+        //     },
+        // };
 
-        const { products, total } = await this.productRepository.getAll(options);
-        const totalPages = Math.ceil(total / options.limit);
+        // const { products, total } = await this.productRepository.getAll(options);
+        // const totalPages = Math.ceil(total / options.limit);
+        //return { products, total, page: options.page, totalPages };
 
-        return { products, total, page: options.page, totalPages };
+        const page = queryParams.page ? parseInt(queryParams.page, 10) : 1;
+        const limit = queryParams.limit ? parseInt(queryParams.limit, 10) : 0;
+
+        const { products, total } = await this.productRepository.getAll({
+            page: page,
+            limit: limit,
+            filter: { category: queryParams.category },
+            sort: { price: queryParams.sortByPrice },
+        });
+
+        const totalPages = limit > 0 ? Math.ceil(total / limit) : 1;
+
+        return { products, total, page: page, totalPages };
     }
 
     public async getById(id: string): Promise<ProductDocument | undefined> {

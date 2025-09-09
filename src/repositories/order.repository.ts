@@ -8,7 +8,7 @@ export class OrderRepository {
             query.user = userId;
         }
         //return OrderModel.find(query);
-        return OrderModel.find(query).sort({ createdAt: -1 }).populate('productsPurchased.product');
+        return OrderModel.find(query).sort({ createdAt: -1 }).populate('user').populate('productsPurchased.product');
     }
 
     public async getById(id: string): Promise<OrderDocument | null> {
